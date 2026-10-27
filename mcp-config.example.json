@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "aikvm-bench": {
+      "command": "C:\\Dev\\AiKVM\\.venv\\Scripts\\aikvm.exe",
+      "args": ["serve", "--port", "COM8", "--target", "bench", "--capture", "desktop"]
+    }
+  }
+}

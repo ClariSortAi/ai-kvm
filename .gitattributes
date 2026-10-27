@@ -1,0 +1,3 @@
+# The firmware manifest hashes exact source bytes. Preserve line endings on
+# every machine so cloning on Windows cannot invalidate the prepared image.
+* -text

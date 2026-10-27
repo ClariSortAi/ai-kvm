@@ -1,0 +1,27 @@
+{
+  "ports": [],
+  "firmware_manifest": "C:\\Dev\\AiKVM\\artifacts\\firmware-manifest.json",
+  "firmware_version": "0.2.0",
+  "image_hashes_valid": {
+    "aikvm.ino.bootloader.bin": true,
+    "aikvm.ino.partitions.bin": true,
+    "aikvm.ino.merged.bin": true,
+    "aikvm.ino.bin": true
+  },
+  "source_hashes_match_image_manifest": {
+    "hid_driver.h": true,
+    "hid_driver.cpp": true,
+    "wireless.h": true,
+    "aikvm.ino": true,
+    "wireless.cpp": true
+  },
+  "tls_psk_available": true,
+  "packages": {
+    "mcp": "2.3.0",
+    "pyserial": "3.5",
+    "mss": "10.1.0",
+    "Pillow": "12.0.0",
+    "opencv-python": "4.13.0.92"
+  },
+  "hardware_tested": false
+}

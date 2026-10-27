@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "aikvm-target": {
+      "command": "C:\\Dev\\AiKVM\\.venv\\Scripts\\aikvm.exe",
+      "args": ["serve", "--pairing", "C:\\Dev\\AiKVM\\.local\\pairing.json", "--target", "target-pc", "--capture", "uvc", "--camera", "0"]
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "firmware_version": "0.2.0",
+  "arduino_cli": "1.3.1",
+  "fqbn": "esp32:esp32:XIAO_ESP32S3:USBMode=default,CDCOnBoot=cdc",
+  "board": "Seeed XIAO ESP32S3",
+  "built_utc": "2026-10-22T16:01:04.2412256Z",
+  "arduino_json": "7.4.2",
+  "images": {
+    "aikvm.ino.bootloader.bin": "643a37f935e12aefc7b265c2de821444b1b92310cb84d3e523b13871d3ed88d6",
+    "aikvm.ino.partitions.bin": "1d9cca96de0fe07ad7fc0648b9878ddecd9ce565e38b589ad20fea698ed4c80c",
+    "aikvm.ino.merged.bin": "e7e76bfcd281a160a04418aa5be51cc9332409fb0f68ba318281a60b03e47a67",
+    "aikvm.ino.bin": "8a4571c288fa066105b97d8bf460ac34e78781946c6587b72b9db2287c5504ba"
+  },
+  "sources": {
+    "hid_driver.h": "5ef89776f97cec8273189be45f9a19d4d036bca99f5481e71a74c8943cfe1c12",
+    "hid_driver.cpp": "76a21f936783c5ccbfd42979d6506b21f9212fd4534217ba032842e0573e23e5",
+    "wireless.h": "d6dec600f28d4c846d11edfcc7934c9436b6e2f7d53af1ee4857f3418f9bf767",
+    "aikvm.ino": "0ce1fea82c46380726f6049b4458eefbd066ce8122d8f78983f708ae8252e716",
+    "wireless.cpp": "c81fd2ac839f6bdebc73fd7415d854c0e99ef2e180a200b058e42f4dbdd0b9f4"
+  },
+  "esp32_core": "3.3.2",
+  "hardware_tested": false
+}

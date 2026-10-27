@@ -1,0 +1,15 @@
+{
+  "stdio_tools": [
+    "kvm_status",
+    "kvm_observe",
+    "kvm_act",
+    "kvm_stop"
+  ],
+  "desktop_image_decoded": true,
+  "image_size": [
+    64,
+    64
+  ],
+  "hardware_connected": false,
+  "input_sent": false
+}

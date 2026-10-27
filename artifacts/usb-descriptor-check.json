@@ -1,0 +1,29 @@
+{
+  "_ZL17desktopDescriptor": {
+    "descriptor_bytes": 175,
+    "input_bytes_by_report": {
+      "1": 8,
+      "2": 5,
+      "7": 4
+    },
+    "report_ids": [
+      1,
+      2,
+      7
+    ]
+  },
+  "_ZL22bootKeyboardDescriptor": {
+    "descriptor_bytes": 65,
+    "input_bytes_by_report": {
+      "0": 8
+    },
+    "report_ids": []
+  },
+  "_ZL19bootMouseDescriptor": {
+    "descriptor_bytes": 77,
+    "input_bytes_by_report": {
+      "0": 5
+    },
+    "report_ids": []
+  }
+}

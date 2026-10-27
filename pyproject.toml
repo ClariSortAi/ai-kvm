@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=78"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aikvm-bench"
+version = "0.2.0"
+description = "XIAO ESP32S3 USB HID bench and local MCP bridge"
+requires-python = ">=3.11"
+dependencies = ["mcp==2.3.0", "pyserial==3.5", "mss==10.1.0", "Pillow==12.0.0", "opencv-python==4.13.0.92", "pywin32==312; sys_platform=='win32'"]
+
+[project.scripts]
+aikvm = "aikvm.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
