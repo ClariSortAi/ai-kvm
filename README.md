@@ -1,6 +1,8 @@
 # AI KVM
 
-A computer stopped at a BIOS screen still accepts a keyboard. AI KVM gives a separate Windows controller that physical input path, plus a view of the target screen. The target needs no installed agent, driver or network connection.
+Ai anything in the world at this point using a cheap SOC ? This combo is two basic pieces. An ESP32s3 for the "hands" acting as a keyboard and mouse, and the "eyes" are a video capture card (hdmi-> USB in) or, surprisingly, a cheap-ish 1080P webcam pointed at the screen. Both paths are proven to work in my setup, YMMY. 
+***See the diagram below*** 
+
 
 A **Seeed Studio XIAO ESP32S3** sends USB keyboard and mouse reports. The published firmware build is version 0.2.1; installed devices may run an earlier version. An external capture device supplies images. You can operate the target through the local console or connect a vision-capable AI client through MCP. The bridge makes no model calls; the ESP32 handles input.
 
