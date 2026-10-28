@@ -3,6 +3,8 @@
 Ai anything in the world at this point using a cheap SOC ? This combo is two basic pieces. An ESP32s3 for the "hands" acting as a keyboard and mouse, and the "eyes" are a video capture card (hdmi-> USB in) or, surprisingly, a cheap-ish 1080P webcam pointed at the screen. Both paths are proven to work in my setup, YMMY. 
 ***See the diagram below*** 
 
+![How the AI KVM connects: the XIAO ESP32S3 plugs into the target's USB as a keyboard and mouse and talks to the host over 2.4 GHz Wi-Fi through a router; the host sees the target's screen through an HDMI-to-USB capture card (option 1) or a webcam pointed at the screen (option 2)](docs/how-it-connects.png)
+
 
 A **Seeed Studio XIAO ESP32S3** sends USB keyboard and mouse reports. The published firmware build is version 0.2.1; installed devices may run an earlier version. An external capture device supplies images. You can operate the target through the local console or connect a vision-capable AI client through MCP. The bridge makes no model calls; the ESP32 handles input.
 
