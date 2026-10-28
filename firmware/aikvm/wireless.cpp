@@ -86,6 +86,7 @@ void wirelessBegin() {
 }
 bool wirelessConfigured() { return configured; }
 bool wirelessOnline() { return online; }
+int wirelessRssi() { return WiFi.RSSI(); }
 bool wirelessReceive(String &line) {
   Line input;
   if (xQueueReceive(incoming,&input,0)!=pdTRUE) return false;

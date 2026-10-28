@@ -61,6 +61,10 @@ def main():
     qualify.add_argument("--pairing", required=True)
     qualify.add_argument("--camera", type=int, default=0)
     qualify.add_argument("--target", required=True, help="Actual target make/model or inventory name")
+    console = commands.add_parser("console", help="Interactive target video and input console")
+    console.add_argument("--pairing", required=True)
+    console.add_argument("--camera", type=int, default=0)
+    console.add_argument("--target", required=True)
     serve = commands.add_parser("serve", help="Local stdio MCP bridge")
     transport(serve)
     serve.add_argument("--target", default="bench")
@@ -105,6 +109,9 @@ def main():
             device.close()
     elif args.command == "qualify":
         from .qualification import run
+        run(args.pairing, args.camera, args.target)
+    elif args.command == "console":
+        from .console import run
         run(args.pairing, args.camera, args.target)
     elif args.command == "serve":
         from .server import make_server

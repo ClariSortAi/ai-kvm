@@ -8,5 +8,5 @@ $hashes = @{}
 foreach ($image in $images) { $hashes[$image.Name] = (Get-FileHash -Algorithm SHA256 -LiteralPath $image.FullName).Hash.ToLower() }
 $sources = @{}
 Get-ChildItem -LiteralPath firmware/aikvm -File | ForEach-Object { $sources[$_.Name] = (Get-FileHash -Algorithm SHA256 -LiteralPath $_.FullName).Hash.ToLower() }
-@{ built_utc = [DateTime]::UtcNow.ToString('o'); board = 'Seeed XIAO ESP32S3'; fqbn = $fqbn; arduino_cli = '1.3.1'; esp32_core = '3.3.2'; arduino_json = '7.4.2'; firmware_version = '0.2.0'; images = $hashes; sources = $sources; hardware_tested = $false } | ConvertTo-Json -Depth 5 | Set-Content -Encoding utf8 artifacts/firmware-manifest.json
+@{ built_utc = [DateTime]::UtcNow.ToString('o'); board = 'Seeed XIAO ESP32S3'; fqbn = $fqbn; arduino_cli = '1.3.1'; esp32_core = '3.3.2'; arduino_json = '7.4.2'; firmware_version = '0.2.1'; images = $hashes; sources = $sources; hardware_tested = $false } | ConvertTo-Json -Depth 5 | Set-Content -Encoding utf8 artifacts/firmware-manifest.json
 Write-Host 'Firmware built and hashed. No hardware execution is implied.'

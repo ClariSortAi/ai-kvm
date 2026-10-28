@@ -3,6 +3,7 @@
 #include <ArduinoJson.h>
 bool wirelessConfigured();
 bool wirelessOnline();
+int wirelessRssi();
 bool wirelessReceive(String &line);
 bool wirelessReply(const String &line);
 void wirelessBegin();

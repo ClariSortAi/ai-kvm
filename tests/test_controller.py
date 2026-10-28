@@ -211,3 +211,17 @@ def test_stop_during_connection_cannot_late_arm():
     assert not device.armed and all(p["op"]!="arm" for p in transport.writes)
     device.close()
 
+
+
+def test_status_reports_acknowledged_input_without_claiming_host_outcome():
+    device, _ = make_device()
+    try:
+        device.arm()
+        assert device.status()['last_input_ack_age_seconds'] is None
+        device.send('press', keys=['TAB'])
+        state = device.status()
+        assert state['last_input_ack_age_seconds'] >= 0
+        assert state['last_round_trip_ms'] >= 0
+        assert state['connected'] and state['armed']
+    finally:
+        device.close()

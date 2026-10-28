@@ -27,11 +27,14 @@ class Device:
         self._thread = None
         self._stop_generation = 0
         self._last_ack = None
+        self._last_round_trip_ms = None
+        self._last_input_ack = None
 
     def _exchange(self, payload: dict) -> dict:
         # Caller holds the lock. An unread/missing response invalidates ownership.
         assert self.serial is not None
         try:
+            started = time.monotonic()
             self.serial.write(json.dumps(payload, separators=(",", ":"), ensure_ascii=True).encode() + b"\n")
             line = self.serial.readline(1024)
             if not line.endswith(b"\n"):
@@ -44,6 +47,7 @@ class Device:
             if not result["ok"]:
                 raise DeviceError(f"Device rejected request: {result.get('error')}")
             self._last_ack = time.monotonic()
+            self._last_round_trip_ms = (self._last_ack - started) * 1000
             return result
         except (OSError, ValueError, DeviceError) as exc:
             self.armed = False
@@ -64,6 +68,7 @@ class Device:
             self.serial = self._serial_factory(self.port, baudrate=115200, timeout=1.5, write_timeout=1)
             self.serial.reset_input_buffer()
             self.info = self._exchange({"v": 1, "op": "hello"})
+            self._last_input_ack = None
             if self.info.get("protocol") != 1 or not self.info.get("session"):
                 self.close()
                 raise DeviceError("Unsupported firmware protocol")
@@ -98,7 +103,9 @@ class Device:
         with self.lock:
             if not self.armed or self.cancel.is_set():
                 raise DeviceError("Input is disarmed. Arm locally before testing.")
-            return self._request(op, **args)
+            result = self._request(op, **args)
+            self._last_input_ack = time.monotonic()
+            return result
 
     def type_text(self, text: str) -> dict:
         if not 1 <= len(text) <= 80 or any(ord(c) > 126 or (ord(c) < 32 and c not in "\n\t") for c in text):
@@ -138,7 +145,7 @@ class Device:
                     continue
                 try:
                     result = self._exchange({"v": 1, "session": self.info["session"], "op": "ping"})
-                    for name in ("hid_ready", "host_protocol"):
+                    for name in ("hid_ready", "host_protocol", "wifi_rssi_dbm"):
                         if name in result:
                             self.info[name] = result[name]
                     if not result.get("armed"):
@@ -150,7 +157,10 @@ class Device:
 
     def status(self) -> dict:
         return {"connected": self.serial is not None, "port": self.port, "armed": self.armed,
-                "fault": self.fault, "last_ack_age_seconds": time.monotonic()-self._last_ack if self._last_ack else None, "device": self.info}
+                "fault": self.fault, "last_ack_age_seconds": time.monotonic()-self._last_ack if self._last_ack else None,
+                "last_round_trip_ms": self._last_round_trip_ms,
+                "last_input_ack_age_seconds": time.monotonic()-self._last_input_ack if self._last_input_ack else None,
+                "device": self.info}
 
     def close(self):
         self._quit.set()

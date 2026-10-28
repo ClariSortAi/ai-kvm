@@ -86,7 +86,7 @@ void command(const String &line) {
     owner=source;
     snprintf(session, sizeof(session), "%08lx%08lx", (unsigned long)esp_random(), (unsigned long)esp_random());
     JsonDocument out; out["ok"] = true; out["session"] = session;
-    out["device_id"] = deviceId; out["firmware"] = "0.2.0";
+    out["device_id"] = deviceId; out["firmware"] = "0.2.1";
     out["protocol"] = 1; out["lease_ms"] = LEASE_MS; out["hid_ready"] = Hid.ready();
     out["armed"] = false; out["transport"] = source==Source::Usb?"usb-cdc":"tls-psk";
     out["usb_profile"]=profileName(); out["host_protocol"]=hostProtocol==0?"boot":"report";
@@ -95,6 +95,7 @@ void command(const String &line) {
     out["absolute_pointer"]=usbProfile==UsbProfile::Desktop && hostProtocol!=0;
     out["usb_cdc"]=usbProfile==UsbProfile::Desktop; out["wireless_configured"]=wirelessConfigured();
     out["wireless_online"]=wirelessOnline(); out["lease_releases"]=leaseReleases;
+    if (wirelessOnline()) out["wifi_rssi_dbm"] = wirelessRssi();
     out["disconnect_releases"]=disconnectReleases; out["hold_releases"]=holdReleases;
     reply(out); return;
   }
@@ -110,7 +111,9 @@ void command(const String &line) {
     if (armed) lastAlive = millis();
     JsonDocument out; out["ok"] = true; out["armed"] = armed;
     out["host_protocol"]=hostProtocol==0?"boot":"report";
-    out["hid_ready"] = Hid.ready(); reply(out); return;
+    out["hid_ready"] = Hid.ready();
+    if (wirelessOnline()) out["wifi_rssi_dbm"] = wirelessRssi();
+    reply(out); return;
   }
   if (!doc["seq"].is<uint32_t>() || !doc["seq"].as<uint32_t>()) { error("invalid_sequence"); return; }
   uint32_t seq = doc["seq"];

@@ -1,6 +1,22 @@
-# AI KVM — today's wireless and BIOS test
+# AI KVM
 
-Prepared 2026-10-22 for the **Seeed Studio XIAO ESP32S3, plain 8MB flash board** named in the project specification. Version 0.2.0 includes paired Wi-Fi control, desktop and HID-only BIOS profiles, a local MCP bridge, and a live BIOS qualification console. The compiler, Python environment and flash image are installed here. Today's acceptance is wireless host input, actual BIOS navigation and input/video recovery after a target reboot. The physical checks require the board, target and capture path to be connected.
+## Use the console
+
+Close any other AI KVM or capture application using the same board or camera, then run:
+
+```powershell
+.\.venv\Scripts\aikvm.exe console --pairing .local\pairing.json --camera 0 --target "Target computer"
+```
+
+Select the actual capture device index. Indexes can change after reconnecting devices; `scripts/List-Devices.ps1` lists camera names. Confirm that the preview shows the intended target, select **Connect input**, then click the video and use the keyboard. **Stop input** releases and disarms it. After an ambiguous acknowledgment, inspect the target before reconnecting; input is never automatically retried. A recently received frame can still be a capture card's frozen or no-signal image.
+
+The active USB profile appears beside the connection status. `bios` is keyboard-only; `desktop` adds absolute pointer control, so clicking the video also sends a click to the target. To change profiles, close the console, run `aikvm profile --pairing .local\pairing.json desktop` or `bios`, and physically reconnect the board's target USB cable. Keyboard translation assumes a US layout. The console sends key presses rather than sustained holds. Only one process can own the paired board at a time.
+
+Video comes from the capture card; the ESP32 handles input. While connected, the status line shows USB readiness, the most recent device response time, and when input was last acknowledged. An acknowledgment confirms USB submission, not the target's visible response. Updated firmware can report Wi-Fi signal strength; older firmware reports it as unavailable. The new console and firmware telemetry have not yet been verified on physical hardware.
+
+The separate `qualify` command retains the BIOS evidence workflow.
+
+Prepared for the **Seeed Studio XIAO ESP32S3, plain 8MB flash board**. Firmware 0.2.1 includes paired Wi-Fi control, desktop and HID-only BIOS profiles, and Wi-Fi signal telemetry. The controller includes an interactive console, local MCP bridge, and BIOS qualification console. Physical checks require the board, target and capture path to be connected.
 
 ## When the board arrives
 
@@ -39,9 +55,9 @@ The fixture checks exact typed text, Ctrl+A replacement, a desktop frame, absolu
 | Flash images | SHA256 manifest in `artifacts/firmware-manifest.json`; esptool validates ESP32-S3 image checksum/hash |
 | Controller and encrypted wireless transport | Passing tests (`pytest --junitxml=artifacts/tests.xml` writes the report locally); includes real loopback TLS-PSK sessions and rejection tests |
 | Local MCP transport and images | Actual stdio subprocess + decoded 64x64 desktop crop; `artifacts/mcp-smoke.json` |
-| Host USB input | Pending board arrival and fixture receipt |
+| Host USB input | Requires a fixture receipt for the target |
 | BIOS keyboard descriptor | Linked ELF (produced by `scripts/Build-Firmware.ps1`, not committed) checked for an 8-byte, no-report-ID keyboard map; `artifacts/usb-descriptor-check.json` |
-| Wireless host input, BIOS and target reboot | Implemented test paths below; hardware-specific acceptance is pending connection |
+| Wireless host input, BIOS and target reboot | Implemented test paths below; acceptance requires hardware-specific evidence |
 
 `artifacts/firmware/aikvm.ino.merged.bin` is the complete 8MB image at flash offset `0x0`. The application-only `.bin` is not a complete first-flash image. Do not substitute it into the merged-image command.
 

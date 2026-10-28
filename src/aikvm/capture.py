@@ -58,6 +58,10 @@ class Capture:
         while not self._quit.is_set():
             cap = cv2.VideoCapture(self.camera, cv2.CAP_DSHOW)
             if not cap.isOpened():
+                cap.release()
+                with self._lock:
+                    self._latest = None
+                    self._error = "capture_open_failed"
                 self._quit.wait(1)
                 continue
             with self._lock:
